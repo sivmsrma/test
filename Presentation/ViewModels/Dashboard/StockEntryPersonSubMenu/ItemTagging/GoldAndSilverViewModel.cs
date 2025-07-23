@@ -491,24 +491,25 @@ namespace Terret_Billing.Presentation.ViewModels.Dashboard.StockEntryPersonSubMe
         }
 
         private async Task LoadHSNCodeAsync(string _selectedCategory, string _selectedSubCategory, string _selectedDesign)
-        {
-            if (string.IsNullOrEmpty(_selectedDesign))
-            {
-                HSN_No = string.Empty;
-                return;
-            }
+{
+    if (string.IsNullOrEmpty(_selectedDesign))
+    {
+        HSN_No = string.Empty;
+        return;
+    }
 
-            try
-            {
-                var hsnCode = await _itemRepository.GetHSNCodeAsync(Stock_Type, _selectedCategory, _selectedSubCategory, _selectedDesign);
-                HSN_No = hsnCode;
-            }
-            catch (Exception ex)
-            {
-                await HandleErrorAsync("Error loading HSN code", ex);
-            }
-
-        }
+    try
+    {
+        // Add normalization of Stock_Type here
+        var metalTypeToQuery = NormalizeMetalType(Stock_Type);
+        var hsnCode = await _itemRepository.GetHSNCodeAsync(metalTypeToQuery, _selectedCategory, _selectedSubCategory, _selectedDesign);
+        HSN_No = hsnCode;
+    }
+    catch (Exception ex)
+    {
+        await HandleErrorAsync("Error loading HSN code", ex);
+    }
+}
 
         
         private async Task LoadPuritySuggestionsAsync()
