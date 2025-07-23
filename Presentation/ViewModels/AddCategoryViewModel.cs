@@ -128,6 +128,21 @@ namespace Terret_Billing.Presentation.ViewModels
 
         public async Task LoadHSNListAsync(int codeLength)
         {
+            if (_hsnService == null)
+            {
+                System.Windows.MessageBox.Show("HSN Service is not initialized.", "Error");
+                return;
+            }
+            if (ItemInfo == null)
+            {
+                System.Windows.MessageBox.Show("ItemInfo is not initialized.", "Error");
+                return;
+            }
+            if (string.IsNullOrEmpty(ItemInfo.firm_id))
+            {
+                System.Windows.MessageBox.Show("Firm ID is missing.", "Error");
+                return;
+            }
             var data = await _hsnService.GetHSNListWithSyncAsync(ItemInfo.firm_id, codeLength);
             HSNItems.Clear();
             int serial = 1;
@@ -140,42 +155,104 @@ namespace Terret_Billing.Presentation.ViewModels
 
         public async Task SaveAsync()
         {
-            if (SelectedHSN == null)
+            try
             {
-                System.Windows.MessageBox.Show("Please select an HSN row from the list.", "Validation Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
-                return;
-            }
-
-            // Check if category exists
-            bool exists = await _itemInfoService.CategoryExistsAsync(ItemInfo.metal, ItemInfo.category, ItemInfo.firm_id);
-            if (exists)
-            {
-                var result = System.Windows.MessageBox.Show(
-                    "Category already exists. Do you want to update it?",
-                    "Duplicate Category",
-                    System.Windows.MessageBoxButton.YesNo,
-                    System.Windows.MessageBoxImage.Question);
-
-                if (result == System.Windows.MessageBoxResult.Yes)
+                // Ensure ItemInfo is initialized
+                if (ItemInfo == null)
                 {
-                    ItemInfo.hsn_id = SelectedHSN.hsn_id;
-                    ItemInfo.hsn_code = SelectedHSN.hsn_code;
-                    ItemInfo.firm_id = SelectedHSN.firm_id;
-                    await _itemInfoService.UpdateItemAsync(ItemInfo);
-                    System.Windows.MessageBox.Show("Category updated successfully!", "Success", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                    ItemInfo = new ItemInfo { firm_id = _firmId };
+                }
+
+                // Validate required fields
+                if (string.IsNullOrWhiteSpace(ItemInfo.category))
+                {
+                    System.Windows.MessageBox.Show("Please enter a name for the category.", "Validation Error", 
+                        System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                     return;
                 }
-                else
+
+                if (string.IsNullOrWhiteSpace(SelectedMetal))
                 {
+                    System.Windows.MessageBox.Show("Please select a metal type.", "Validation Error", 
+                        System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                     return;
                 }
-            }
 
-            ItemInfo.hsn_id = SelectedHSN.hsn_id;
-            ItemInfo.hsn_code = SelectedHSN.hsn_code;
-            ItemInfo.firm_id = SelectedHSN.firm_id;
-            await _itemInfoService.InsertItemAsync(ItemInfo);
-            System.Windows.MessageBox.Show("Category saved successfully!", "Success", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                if (string.IsNullOrWhiteSpace(ShortName))
+                {
+                    System.Windows.MessageBox.Show("Please enter a short name.", "Validation Error", 
+                        System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (SelectedHSN == null)
+                {
+                    System.Windows.MessageBox.Show("Please select an HSN code from the list.", "Validation Error", 
+                        System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Set HSN details
+                ItemInfo.hsn_id = SelectedHSN.hsn_id;
+                ItemInfo.hsn_code = SelectedHSN.hsn_code;
+                ItemInfo.firm_id = _firmId; // Use the firm ID from the constructor
+                
+                // Set the metal type
+                ItemInfo.metal = SelectedMetal;
+
+                // Check if category exists
+                //bool exists = await _itemInfoService.CategoryExistsAsync(ItemInfo.metal, ItemInfo.category, ItemInfo.firm_id);
+                
+                //if (exists)
+                //{
+                //    var result = System.Windows.MessageBox.Show(
+                //        "Category already exists. Do you want to update it?",
+                //        "Duplicate Category",
+                //        System.Windows.MessageBoxButton.YesNo,
+                //        System.Windows.MessageBoxImage.Question);
+
+                //    if (result == System.Windows.MessageBoxResult.Yes)
+                //    {
+                //        // Since we can't get the existing item, we'll just update based on the current values
+                //        // This assumes that CategoryExistsAsync is checking based on metal, category, and firm_id
+                //        // and that these fields form a unique key in the database
+                //        await _itemInfoService.UpdateItemAsync(ItemInfo);
+                //        System.Windows.MessageBox.Show("Category updated successfully!", "Success", 
+                //            System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                //    }
+                //    return;
+                //}
+
+                // Create a new ItemInfo object for insertion to avoid sending the item_id
+                var newItem = new ItemInfo
+                {
+                    category = ItemInfo.category,
+                    metal = ItemInfo.metal,
+                    sub_category = ItemInfo.sub_category,  // Add this line
+    design = ItemInfo.design, 
+                    short_name = ItemInfo.short_name,
+                    hsn_id = ItemInfo.hsn_id,
+                    hsn_code = ItemInfo.hsn_code,
+                    firm_id = ItemInfo.firm_id,
+                    IsDataPostOnServer = 0 // Assuming default value for new items
+                };
+                
+                // Insert new category
+                await _itemInfoService.InsertItemAsync(newItem);
+                System.Windows.MessageBox.Show("Category saved successfully!", "Success", 
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                
+                // Reset form after successful save
+                ItemInfo = new ItemInfo { firm_id = _firmId };
+                OnPropertyChanged(nameof(ItemInfo));
+                OnPropertyChanged(nameof(SelectedMetal));
+                OnPropertyChanged(nameof(ShortName));
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"An error occurred while saving: {ex.Message}", "Error", 
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
         }
     }
 }

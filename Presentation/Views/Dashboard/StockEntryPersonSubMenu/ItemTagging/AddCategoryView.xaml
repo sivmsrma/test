@@ -11,20 +11,7 @@
             <ColumnDefinition Width="380"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <!-- Back Button above the card -->
-        <Button x:Name="BackButton"
-            Content="← Back to Dashboard"
-            Width="180"
-            Height="40"
-            Margin="32,32,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Style="{DynamicResource MaterialDesignFlatButton}"
-            Click="BackButton_Click"
-            FontWeight="SemiBold"
-            FontSize="14"
-            Foreground="#3949ab"
-            Grid.ColumnSpan="2"/>
+        
         <!-- Left Panel: Form -->
         <Border Grid.Column="0" Background="#fff" CornerRadius="16" Margin="32,80,16,32" Effect="{DynamicResource MaterialDesignShadowDepth2}">
             <StackPanel Margin="24">
@@ -86,7 +73,6 @@
                       AutoGenerateColumns="False"
                       Height="380"
                       Margin="0"
-                      Style="{StaticResource ModernDataGridStyle}"
                       SelectionMode="Single"
                       SelectionUnit="FullRow"
                       IsReadOnly="True"

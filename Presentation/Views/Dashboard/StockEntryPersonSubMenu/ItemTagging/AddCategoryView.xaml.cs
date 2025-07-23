@@ -15,6 +15,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Terret_Billing.Presentation.ViewModels;
+using Terret_Billing.Domain.Entities;
+using Terret_Billing.Application.Services.Interfaces;
+using MySql.Data.MySqlClient;
+using Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu;
+using Terret_Billing.Presentation.Views.Dashboard;
+using Terret_Billing.Presentation.ViewModels.Dashboard.StockEntryPersonSubMenu;
+using Dapper;
 
 namespace Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu.ItemTagging
 {
@@ -31,20 +38,39 @@ namespace Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu.It
         {
             InitializeComponent();
             var config = (IConfiguration)Presentation.App.Services.GetService(typeof(IConfiguration));
-            _localConnStr = config.GetConnectionString("BillingDbLocal");
-            _serverConnStr = config.GetConnectionString("BillingDbServer");
-            _firmId = Presentation.App.CurrentUser?.firm_id ?? string.Empty;
+            _localConnStr = config.GetConnectionString("BillingDblocal");
+            _serverConnStr = config.GetConnectionString("BillingDb");
+            var hsnService = (IHSNService)Presentation.App.Services.GetService(typeof(IHSNService));
+            var itemInfoService = (IItemInfoService)Presentation.App.Services.GetService(typeof(IItemInfoService));
+            _viewModel = new AddCategoryViewModel(hsnService, itemInfoService, _firmId);
+            this.DataContext = _viewModel;
             if (string.IsNullOrEmpty(_firmId))
             {
                 MessageBox.Show("Firm ID not found for current user.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            AttachButtonHandlers();
+            // Default: 8 digits (load after view is loaded)
+            this.Loaded += async (s, e) => await LoadHSNList(8);
+        }
+
+        public AddCategoryView(User currentUser)
+        {
+            InitializeComponent();
+            var config = (IConfiguration)Presentation.App.Services.GetService(typeof(IConfiguration));
+            _localConnStr = config.GetConnectionString("BillingDbLocal");
+            _serverConnStr = config.GetConnectionString("BillingDbServer");
+            _firmId = currentUser?.firm_id ?? string.Empty;
             var hsnService = (IHSNService)Presentation.App.Services.GetService(typeof(IHSNService));
             var itemInfoService = (IItemInfoService)Presentation.App.Services.GetService(typeof(IItemInfoService));
             _viewModel = new AddCategoryViewModel(hsnService, itemInfoService, _firmId);
             this.DataContext = _viewModel;
+            if (string.IsNullOrEmpty(_firmId))
+            {
+                MessageBox.Show("Firm ID not found for current user.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             AttachButtonHandlers();
-            // Default: 8 digits (load after view is loaded)
             this.Loaded += async (s, e) => await LoadHSNList(8);
         }
 
@@ -110,14 +136,7 @@ namespace Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu.It
             }
         }
 
-        private void BackButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            var window = Window.GetWindow(this) as StockEntryDashboard;
-            if (window?.DataContext is StockEntryDashboardViewModel viewModel)
-            {
-                viewModel.ShowDashboard();
-            }
-        }
+     
 
         private async void SaveButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {

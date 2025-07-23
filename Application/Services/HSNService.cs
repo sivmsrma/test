@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terret_Billing.Application.Services.Interfaces;
+using Terret_Billing.Domain.Interfaces;
+using Terret_Billing.Domain.Entities;
 
 namespace Terret_Billing.Application.Services
 {

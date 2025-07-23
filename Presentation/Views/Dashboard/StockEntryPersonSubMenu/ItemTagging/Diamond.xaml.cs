@@ -159,8 +159,8 @@ namespace Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu.It
                 }
 
                 // Create and show the AddItem window
-                var addItemWindow = new Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu.AddItem(metalType, currentUser);
-                addItemWindow.ShowDialog();
+                var addCategoryWindow = new Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu.ItemTagging.AddCategoryView(CurrentUser);
+                addCategoryWindow.ShowDialog();
             }
             catch (Exception ex)
             {

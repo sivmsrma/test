@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Terret_Billing.Domain.Entities
 {
-    internal class HSNListItem
+    public class HSNListItem
     {
         public int hsn_id { get; set; }
         public string firm_id { get; set; }

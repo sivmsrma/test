@@ -16,6 +16,9 @@ namespace Terret_Billing.Presentation
     {
         private ServiceProvider serviceProvider;
         private IConfiguration configuration;
+        private static ServiceProvider _staticServiceProvider;
+        public static ServiceProvider Services => _staticServiceProvider;
+        public static Domain.Entities.User CurrentUser { get; set; }
 
         public App()
         {
@@ -27,6 +30,7 @@ namespace Terret_Billing.Presentation
             var services = new ServiceCollection();
             ConfigureServices(services);
             serviceProvider = services.BuildServiceProvider();
+            _staticServiceProvider = serviceProvider;
         }
 
         private void ConfigureServices(ServiceCollection services)
@@ -42,7 +46,7 @@ namespace Terret_Billing.Presentation
               
                 services.AddSingleton<IConfiguration>(configuration);
 
-                services.AddInfrastructure();
+                services.AddInfrastructure(configuration);
 
                 services.AddTransient<ViewModels.AddPartyViewModel>();
 

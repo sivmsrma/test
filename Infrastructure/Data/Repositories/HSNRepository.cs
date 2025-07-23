@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Dapper;
+using MySql.Data.MySqlClient;
 using Terret_Billing.Domain.Entities;
 using Terret_Billing.Domain.Interfaces;
 
@@ -12,18 +11,19 @@ namespace Terret_Billing.Infrastructure.Data.Repositories
 {
     public class HSNRepository : IHSNRepository
     {
-        private readonly string _localConnectionString;
-        private readonly string _serverConnectionString;
+        private const int LOCAL_DB_INDEX = 0;
+        private const int REMOTE_DB_INDEX = 1;
+        private readonly List<string> _connectionStrings;
 
-        public HSNRepository(IConfiguration configuration)
+        public HSNRepository(IDatabaseHelper databaseHelper)
         {
-            _localConnectionString = configuration.GetConnectionString("BillingDbLocal");
-            _serverConnectionString = configuration.GetConnectionString("BillingDbServer");
+            _connectionStrings = databaseHelper?.GetConnectionString();
         }
 
         private MySqlConnection CreateConnection(bool useLocal)
         {
-            return useLocal ? new MySqlConnection(_localConnectionString) : new MySqlConnection(_serverConnectionString);
+            var connStr = useLocal ? _connectionStrings[LOCAL_DB_INDEX] : _connectionStrings[REMOTE_DB_INDEX];
+            return new MySqlConnection(connStr);
         }
 
         public async Task<IEnumerable<HSNListItem>> GetHSNListByFirmIdAndLengthAsync(string firmId, int codeLength, bool useLocal)
@@ -31,18 +31,24 @@ namespace Terret_Billing.Infrastructure.Data.Repositories
             using var connection = CreateConnection(useLocal);
             return await connection.QueryAsync<HSNListItem>(
                 "GetHSNListByFirmIdAndLength",
-                new { firmid = firmId, length = codeLength },
+                new { firmId = firmId, length = codeLength },
                 commandType: CommandType.StoredProcedure);
         }
 
         public async Task InsertHSNListToLocalAsync(IEnumerable<HSNListItem> items)
         {
-            using var connection = CreateConnection(true);
+            using var connection = CreateConnection(true); // always local
             foreach (var item in items)
             {
                 await connection.ExecuteAsync(
                     "INSERT INTO hsn_list (firm_id, metal, hsn_code, IsDataPostOnServer) VALUES (@firm_id, @metal, @hsn_code, @IsDataPostOnServer)",
-                    new { firm_id = item.firm_id, metal = item.metal, hsn_code = item.hsn_code, IsDataPostOnServer = item.IsDataPostOnServer });
+                    new
+                    {
+                        firm_id = item.firm_id,
+                        metal = item.metal,
+                        hsn_code = item.hsn_code,
+                        IsDataPostOnServer = item.IsDataPostOnServer
+                    });
             }
         }
     }
