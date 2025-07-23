@@ -1,0 +1,331 @@
+﻿<Window x:Class="Terret_Billing.Presentation.Views.Dashboard.ManagerDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Manager Dashboard" Height="800"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Background="#3F51B5" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16">
+                <materialDesign:PackIcon Kind="Store" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="White"/>
+                <TextBlock Text="Manager Dashboard" VerticalAlignment="Center" FontSize="20" FontWeight="Medium" Foreground="White"/>
+            </StackPanel>
+            <StackPanel  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="200,9,72,1">
+                <TextBlock Text="User_Name: " FontSize="15" FontFamily="Calibri" Foreground="White" />
+                <TextBlock x:Name="txtUserName" FontSize="15" FontFamily="Calibri"  FontWeight="Medium" Foreground="White"/>
+            </StackPanel>
+            <StackPanel  Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="200,5,72,1">
+                <TextBlock Text="Firm_Name: " FontSize="15" FontFamily="Calibri" Foreground="White" />
+                <TextBlock x:Name="txtFirmName" FontSize="15" FontFamily="Calibri" FontWeight="Medium"  Foreground="White"/>
+            </StackPanel>
+            <StackPanel Grid.Column="4"
+            Orientation="Horizontal"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Margin="100,5,72,1">
+                <Button Background="Transparent" BorderThickness="0" Click="LogoutButton_Click">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Logout"
+                                     Width="24"
+                                     Height="24"
+                                     Margin="200,0,0,0"
+                                     VerticalAlignment="Center"
+                                     Foreground="White"/>
+                        <TextBlock Text="LogOut"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       FontWeight="DemiBold"
+                                   FontFamily="calibari"
+                       Foreground="White"
+                       Margin="0,0,0,0"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+
+
+
+
+        </Grid>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" MinWidth="60"/>
+                <ColumnDefinition Width="*" MinWidth="400"/>
+                <ColumnDefinition Width="300" MinWidth="250"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Sidebar -->
+            <materialDesign:Card Grid.Column="0" Margin="8" Background="#F5F5F5">
+                <StackPanel>
+                    <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Overview" Margin="8">
+                        <materialDesign:PackIcon Kind="ViewDashboard" Width="24" Height="24"/>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Business Operations" Margin="8">
+                        <materialDesign:PackIcon Kind="Business" Width="24" Height="24"/>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Reports" Margin="8">
+                        <materialDesign:PackIcon Kind="ChartBar" Width="24" Height="24"/>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignIconButton}" ToolTip="Settings" Margin="8">
+                        <materialDesign:PackIcon Kind="Cog" Width="24" Height="24"/>
+                    </Button>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Main Dashboard Content with ScrollViewer -->
+            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Business Operations -->
+                    <Grid Grid.Row="0" Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:Card Grid.Column="0" Margin="8" Background="#E3F2FD">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#1976D2"/>
+                                <TextBlock Text="Total Sale" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#1976D2"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="1" Margin="8" Background="#E8F5E9"  MouseLeftButtonUp="Card_MouseLeftButtonUp">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Total Purchase" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="2" Margin="8" Background="#FFEBEE">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#D32F2F"/>
+                                <TextBlock Text="Total Expenses" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#D32F2F"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <!-- Revenue Projections -->
+                    <Grid Grid.Row="1" Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:Card Grid.Column="0" Margin="8" Background="#E8F5E9">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Total Receivable Amount" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <materialDesign:PackIcon Kind="ArrowUp" Width="16" Height="16" Foreground="#388E3C"/>
+                                    <TextBlock Text="100% vs Last month" FontSize="12" Foreground="#388E3C"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="1" Margin="8" Background="#E8F5E9">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Total Payable Amount" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <materialDesign:PackIcon Kind="ArrowUp" Width="16" Height="16" Foreground="#388E3C"/>
+                                    <TextBlock Text="100% vs Last month" FontSize="12" Foreground="#388E3C"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <!-- Quick Access Buttons -->
+                    <Grid Grid.Row="2" Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:Card Grid.Column="0" Margin="8" Background="#E3F2FD">
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Height="80" Click="OpenAddPartyWindow_Click">
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="AccountPlus" Width="32" Height="32" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Party Account" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="1" Margin="8" Background="#E3F2FD">
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Height="80" Click="ItemTagging_Click">
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="Cube" Width="32" Height="32" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Create Item/tagging" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="2" Margin="8" Background="#E3F2FD">
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Height="80" Click="Button_Click">
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="FileDocument" Width="32" Height="32" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Create Sales Invoice" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="3" Margin="8" Background="#E3F2FD">
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Height="80" Click="OpenPurchaseWindow_Click" >
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="FileDocumentOutline" Width="32" Height="32" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Create Purchase Bill" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="4" Margin="8" Background="#E3F2FD">
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Height="80" Click="OpenVoucherWindow_Click">
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="Voucher" Width="32" Height="32" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Create Voucher" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="5" Margin="8" Background="#E3F2FD">
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Height="80" Click="OpenPaymentWindow_Click" >
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="CreditCard" Width="32" Height="32" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Party Payment" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <!-- Total Available Income and Stock -->
+                    <Grid Grid.Row="3" Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:Card Grid.Column="0" Margin="8" Background="#E8F5E9">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Total Available Income" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="1" Margin="8" Background="#FFF3E0">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#E65100"/>
+                                <TextBlock Text="Total Available Stock On Hand" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#E65100"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <!-- Revenue Inflow -->
+                    <Grid Grid.Row="4" Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:Card Grid.Column="0" Margin="8" Background="#E8F5E9">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Total Cash Collected" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="1" Margin="8" Background="#E8F5E9">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Total Cash Balance (As on)" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="2" Margin="8" Background="#E8F5E9">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Total Collection In Bank" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="3" Margin="8" Background="#FCE4EC">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#D81B60"/>
+                                <TextBlock Text="Total Bank Balance (As on)" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#D81B60"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <!-- Revenue Management -->
+                    <Grid Grid.Row="5" Margin="0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:Card Grid.Column="0" Margin="8" Background="#E8F5E9">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="1" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Invoices Receivable" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="1" Margin="8" Background="#E8F5E9">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#388E3C"/>
+                                <TextBlock Text="Expected Receivable" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#388E3C"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="2" Margin="8" Background="#FFEBEE">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="0" FontSize="16" FontWeight="Medium" Foreground="#D32F2F"/>
+                                <TextBlock Text="Bills Payable" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#D32F2F"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Column="3" Margin="8" Background="#FFEBEE">
+                            <StackPanel Margin="16">
+                                <TextBlock Text="₹0.00" FontSize="16" FontWeight="Medium" Foreground="#D32F2F"/>
+                                <TextBlock Text="Expected Payable" FontSize="13" FontWeight="DemiBold" FontFamily="Calibri" Foreground="#D32F2F"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+
+            <!-- Right Panel (Setup Guide and Help) -->
+          
+        </Grid>
+
+        <!-- Footer -->
+        <Grid Grid.Row="2" Background="#3F51B5" Height="32" Margin="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="© 2025 Manager Dashboard" Foreground="White" VerticalAlignment="Center"/>
+                <TextBlock Text=" | Version 1.0.0" Foreground="White" VerticalAlignment="Center" Margin="16,0"/>
+                <TextBlock Text="Ready" Foreground="White" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,230 @@
+<Window x:Class="Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu.AddItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Terret_Billing.Presentation.Views.Dashboard.StockEntryPersonSubMenu"
+        xmlns:viewmodels="clr-namespace:Terret_Billing.Presentation.ViewModels"
+        mc:Ignorable="d"
+        Title="Add Item" Height="768" Width="1366">
+
+    <Window.Resources>
+        <!-- Rounded Button Style -->
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="#0078D7" CornerRadius="10" BorderBrush="Black" BorderThickness="1">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="4"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--company and user name ka grid hai yeh -->
+        <Grid Background="LightGray" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0.7*" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Company Name:" Grid.Column="0" HorizontalContentAlignment="Left" Margin="5"/>
+            <Label Content="User Name:" Grid.Column="2" HorizontalContentAlignment="Right" Margin="5"/>
+        </Grid>
+
+        <!-- yeh grid hai jismein humne main hsn create ya phir create ko dala hua hai  -->
+        <Grid Background="LightGray" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--yeh grid hai jisme hum default hsn show kr k select krayenge user se-->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="Black" Grid.Row="0" BorderThickness="2" CornerRadius="5" Margin="10,0,0,0" Padding="10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Row 0 -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="10,0,0,0" HorizontalAlignment="Left">
+                            <Label Content="Metal Type:" HorizontalContentAlignment="Left" FontSize="14" FontWeight="Bold" Margin="10,0,0,0"/>
+                            <TextBox x:Name="OrnamentType" Text="{Binding MetalType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" Height="25" FontFamily="Calibri" FontWeight="ExtraBlack" FontSize="14" Margin="10,1,0,0" Foreground="Black" IsReadOnly="True"/>
+                        </StackPanel>
+
+                        <!-- Row 1 -->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,20,0,0">
+                            <Label Content="Category:" HorizontalContentAlignment="Left" FontSize="12" FontWeight="Bold" />
+                            <TextBox x:Name="Category" Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" Width="250" FontWeight="ExtraBlack" FontSize="12" Margin="38,1,0,0" />
+                        </StackPanel>
+
+                        <!-- Row 2 -->
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,10,0,0">
+                            <Label Content="Sub-Category:" HorizontalContentAlignment="Left" FontSize="12" FontWeight="Bold" Margin="0,0,0,0"/>
+                            <TextBox x:Name="SubCategory" Text="{Binding SubCategory, UpdateSourceTrigger=PropertyChanged}" Width="250" FontWeight="ExtraBlack" FontSize="12" Margin="10,0,0,0" />
+                        </StackPanel>
+
+                        <!-- Row 3 -->
+                        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10,10,0,0">
+                            <Label Content="Design:" HorizontalContentAlignment="Left" FontSize="12" FontWeight="Bold" Margin="0,0,0,0"/>
+                            <TextBox x:Name="Design" Text="{Binding Design, UpdateSourceTrigger=PropertyChanged}" Width="250" FontWeight="ExtraBlack" FontSize="12" Margin="48,1,0,0" />
+                        </StackPanel>
+
+                        <!-- Row 4 -->
+                        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10,10,0,0">
+                            <Label Content="Short Name:" HorizontalContentAlignment="Left" FontSize="12" FontWeight="Bold" Margin="0,0,0,0"/>
+                            <TextBox x:Name="ShortName" Text="{Binding ShortName, UpdateSourceTrigger=PropertyChanged}" Width="250" FontWeight="ExtraBlack" FontSize="12" Margin="19,1,0,0" />
+                        </StackPanel>
+
+                    </Grid>
+                </Border>
+
+                <Border BorderBrush="Black" Grid.Row="1" BorderThickness="2" CornerRadius="5" Margin="10,10,10,180" Padding="10">
+                    <!-- Border ke andar ek Grid -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Title -->
+                        <Label Content="Create New HSN" Grid.Row="0" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+
+                        <!-- Input row -->
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10,20,0,0">
+                            <Label Content="Metal Type:" HorizontalContentAlignment="Left" FontSize="12" FontWeight="Bold" Height="30" VerticalAlignment="Top"/>
+                            <TextBox x:Name="NewMetalType" Text="{Binding NewMetalType, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30" FontSize="12" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="10,20,0,0">
+                            <Label Content="HSN:" HorizontalContentAlignment="Left" FontSize="12" FontWeight="Bold" Height="30" VerticalAlignment="Top"/>
+                            <TextBox x:Name="NewHsn" Text="{Binding NewHsn, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30" FontSize="12" VerticalAlignment="Top" Margin="45,0,0,0"/>
+                        </StackPanel>
+
+                        <Button Grid.Row="3" Content="Save" Width="100" Height="40" Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Center" Margin="0,20,0,0" Click="SaveHsn_Click"/>
+                    </Grid>
+                </Border>
+
+            </Grid>
+
+            <!--yeh grid hai jisme user custom hsn create kr skta hai user-->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="500"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Search Box -->
+                <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10,0,10,10" Padding="10">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="4-Digit HSN"
+                         Command="{Binding Load4DigitHsnCommand}"
+                         Style="{StaticResource RoundedButtonStyle}"
+                         Margin="0,0,10,0"
+                         Padding="10,5"
+                         ToolTip="Load 4-digit HSN codes"/>
+                        <Button Content="6-Digit HSN"
+                         Command="{Binding Load6DigitHsnCommand}"
+                         Style="{StaticResource RoundedButtonStyle}"
+                         Margin="0,0,10,0"
+                         Padding="10,5"
+                         ToolTip="Load 6-digit HSN codes"/>
+                        <Button Content="8-Digit HSN"
+                         Command="{Binding Load8DigitHsnCommand}"
+                         Style="{StaticResource RoundedButtonStyle}"
+                         Padding="10,5"
+                         ToolTip="Load 8-digit HSN codes"/>
+                    </StackPanel>
+                </Border>
+
+
+
+                <!-- HSN DataGrid -->
+                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10,0,10,10">
+                    <DataGrid x:Name="HsnDataGrid"
+                              ItemsSource="{Binding FilteredHsnItems}"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 SelectionMode="Single"
+                                 SelectionUnit="FullRow"
+                                 CanUserAddRows="False"
+                                 CanUserDeleteRows="False"
+                                 CanUserResizeRows="False"
+                                 CanUserSortColumns="True"
+                                 GridLinesVisibility="All"
+                                 RowHeaderWidth="0"
+                              Margin="5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Metal" Binding="{Binding Metal}" Width="auto"/>
+                            <DataGridTextColumn Header="HSN Code" Binding="{Binding HsnCode}" Width="auto"/>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Select"
+                                                    Command="{Binding DataContext.SelectHsnCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource RoundedButtonStyle}"
+                                                    Padding="10,2"
+                                                    Margin="2"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+
+
+
+                <!-- Buttons -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,20">
+                    <Button Content="Add"
+                            Command="{Binding AddItemCommand}"
+                            Width="100"
+                            Height="35"
+                            Margin="0,0,10,0"
+                            Style="{StaticResource RoundedButtonStyle}"/>
+                    <Button Content="Clear"
+                            Command="{Binding ClearFormCommand}"
+                            Width="100"
+                            Height="35"
+                            Style="{StaticResource RoundedButtonStyle}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <!-- Status and Error Messages -->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10">
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,5"/>
+            <TextBlock Text="{Binding StatusMessage}" Foreground="Green" FontWeight="Bold" TextWrapping="Wrap"/>
+        </StackPanel>
+    </Grid>
+</Window>

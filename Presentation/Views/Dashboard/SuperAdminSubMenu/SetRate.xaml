@@ -1,0 +1,67 @@
+﻿<Window x:Class="Terret_Billing.Presentation.Views.Dashboard.SuperAdminSubMenu.SetRate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Terret_Billing.Presentation.Views.Dashboard.SuperAdminSubMenu"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Background="LightGray"
+        Title="SetRate" Height="300" Width="400">
+
+    <Window.Resources>
+        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                         BorderBrush="{TemplateBinding BorderBrush}"
+                         BorderThickness="{TemplateBinding BorderThickness}"
+                         CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="5"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Set Todays Rate" FontFamily="Calibri" FontSize="16"  HorizontalAlignment="Center"/>
+        <Border BorderThickness="2" BorderBrush="Black" CornerRadius="7" Grid.Row="1" Margin="10">
+            <StackPanel Orientation="Vertical" Margin="10">
+                <DatePicker x:Name="EntryDatePicker" HorizontalAlignment="Right" Width="120" Height="30" IsEnabled="False" FontWeight="Bold" BorderThickness="2"/>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Set Gold Rate:" FontFamily="Calibri" FontSize="14"/>
+                    <TextBox x:Name="GoldRate" FontFamily="Calibri" FontSize="14" Width="60" Style="{StaticResource ModernTextBoxStyle}" Margin="24,0,0,0"/>
+                    <Label Content="per 10 gram"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Set Silver Rate:" FontFamily="Calibri" FontSize="14"/>
+                    <TextBox x:Name="SilverRate" FontFamily="Calibri" FontSize="14" Width="60" Style="{StaticResource ModernTextBoxStyle}" Margin="20,0,0,0"/>
+                    <Label Content="per 1 kg"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Set Diamond Rate:" FontFamily="Calibri" FontSize="14"/>
+                    <TextBox x:Name="DiamondRate" FontFamily="Calibri" FontSize="14" Width="60" Style="{StaticResource ModernTextBoxStyle}"/>
+                    <Label Content="per carat"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Label Content="Set Platinum Rate:" FontFamily="Calibri" FontSize="14"/>
+                    <TextBox x:Name="PlatinumRate" FontFamily="Calibri" FontSize="14" Width="60" Style="{StaticResource ModernTextBoxStyle}"/>
+                    <Label Content="per "/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,125 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Terret_Billing</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Presentation\Views\**" />
+    <EmbeddedResource Remove="Presentation\Views\**" />
+    <None Remove="Presentation\Views\**" />
+    <Page Remove="Presentation\Views\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Presentation\Assets\add-item.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Database\database\scripts\server\BillEntery.sql" />
+    <Compile Include="Presentation\Views\Dashboard\BillingPersonDashboard.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\BillingSubMenu\BillEntry.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\ManagerDashboard.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\ManagerSubMenu\AddParty.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\ManagerSubMenu\AddUsersViewModel.cs" />
+    <Compile Include="Presentation\Views\Dashboard\ManagerSubMenu\PaymentView.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\ManagerSubMenu\PurchaseReport.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\ManagerSubMenu\PurchaseView.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\ManagerSubMenu\SenderVoucherNote.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\StockEntryPersonDashboard.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\AddItem.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\Diamond.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\GoldAndSilver.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\RawPrinterHelper.cs" />
+    <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\Tagging.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\SuperAdminDashboard.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\SuperAdminSubMenu\AddUsers.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\SuperAdminSubMenu\NewBranchForm.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\SuperAdminSubMenu\SetRate.xaml.cs" />
+    <Compile Include="Presentation\Views\PrintPreviewWindow.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <Folder Include="Presentation\Assets\" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0" />
+    <PackageReference Include="MySql.Data" Version="9.3.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.5" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
+    <Reference Include="PresentationFramework" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageReference Include="ZXing.Net" Version="0.16.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Presentation\Views\Dashboard\BillingPersonDashboard.xaml" />
+    <Page Include="Presentation\Views\Dashboard\BillingSubMenu\BillEntry.xaml" />
+    <Page Include="Presentation\Views\Dashboard\ManagerDashboard.xaml" />
+    <Page Include="Presentation\Views\Dashboard\ManagerSubMenu\AddParty.xaml" />
+    <Page Include="Presentation\Views\Dashboard\ManagerSubMenu\PaymentView.xaml" />
+    <Page Include="Presentation\Views\Dashboard\ManagerSubMenu\PurchaseReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\Dashboard\ManagerSubMenu\PurchaseView.xaml" />
+    <Page Include="Presentation\Views\Dashboard\ManagerSubMenu\SenderVoucherNote.xaml" />
+    <Page Include="Presentation\Views\Dashboard\StockEntryPersonDashboard.xaml" />
+    <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\AddItem.xaml" />
+    <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\Diamond.xaml" />
+    <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\GoldAndSilver.xaml" />
+    <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\Tagging.xaml" />
+    <Page Include="Presentation\Views\Dashboard\SuperAdminDashboard.xaml" />
+    <Page Include="Presentation\Views\Dashboard\SuperAdminSubMenu\AddUsers.xaml" />
+    <Page Include="Presentation\Views\Dashboard\SuperAdminSubMenu\NewBranchForm.xaml" />
+    <Page Include="Presentation\Views\Dashboard\SuperAdminSubMenu\SetRate.xaml" />
+    <Page Include="Presentation\Views\PrintPreviewWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Presentation\Assets\add-item.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\billingsoftware\New folder %282%29\Application\Services\Interfaces\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\billingsoftware\New folder (2)\Application\Services\Interfaces\.editorconfig" />
+  </ItemGroup>
+
+</Project> 

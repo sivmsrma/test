@@ -1,0 +1,391 @@
+<Window x:Class="Terret_Billing.Presentation.Views.Dashboard.ManagerSubMenu.AddParty"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:Terret_Billing.Presentation.ViewModels"
+        xmlns:models="clr-namespace:Terret_Billing.Presentation.Models"
+        mc:Ignorable="d"
+        Title="Add Party"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Style="{StaticResource MaterialDesignWindow}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="Calibri" Width="1378" Height="750">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="MaterialDesignTitleMediumTextBlock" TargetType="TextBlock" 
+                   BasedOn="{StaticResource MaterialDesignTextBlock}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="DemiBold"/>
+                <Setter Property="Margin" Value="0,8"/>
+            </Style>
+            <Style x:Key="MaterialDesignTitleLargeTextBlock" TargetType="TextBlock"
+                   BasedOn="{StaticResource MaterialDesignTextBlock}">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Margin" Value="0,0,0,20"/>
+            </Style>
+            <Style x:Key="MaterialDesignCard" TargetType="materialDesign:Card">
+                <Setter Property="Margin" Value="0,10"/>
+                <Setter Property="Padding" Value="16"/>
+                <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2"/>
+            </Style>
+            <Style x:Key="AnimatedButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                <Setter Property="Margin" Value="8,0"/>
+                <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp4"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="423*"/>
+            <ColumnDefinition Width="36*"/>
+            <ColumnDefinition Width="836*"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Background="LightGray" Grid.ColumnSpan="4">
+            <StackPanel>
+
+                <!-- Personal Info Group -->
+                <TextBlock Text="Create Account" FontSize="18" FontWeight="DemiBold" FontFamily="Calibiri" Margin="5,0,0,0" Foreground="Purple" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>
+
+                <!-- Personal Info Group -->
+
+                <StackPanel>
+                    <TextBlock Text="Personal Information" Style="{StaticResource MaterialDesignTitleMediumTextBlock}" Margin="10,10,0,0" FontFamily="Calibiri" FontWeight="DemiBold" FontSize="16" Foreground="Purple"/>
+                    <Grid x:Name="myGrid">
+                        <StackPanel Orientation="Vertical">
+
+                            <WrapPanel Margin="10" Orientation="Horizontal" ItemHeight="Auto" ItemWidth="Auto">
+
+                                <!-- Name Field -->
+                                <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center" Margin="4,0"/>
+                                    <TextBox x:Name="txtName"
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                 Text="{Binding Customer.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                 Width="250" Height="50"
+                                                 FontSize="14" FontWeight="DemiBold" FontFamily="Calibiri"
+                                                 materialDesign:HintAssist.Hint="Name *"
+                                                 materialDesign:HintAssist.IsFloating="True"
+                                                 ToolTip="Enter the full name of the party"
+                                                 AutomationProperties.Name="Name"
+                                                 TabIndex="1"
+                                                 KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White" />
+                                </StackPanel>
+
+                                <!-- Mobile Number Field -->
+                                <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Phone" VerticalAlignment="Center" Margin=" 5,5,5,5"/>
+                                    <TextBox x:Name="txtMobile" 
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                 Text="{Binding Customer.MobileNumber, ValidatesOnDataErrors=True}"
+                                                 Width="140" Height="50"
+                                                 materialDesign:HintAssist.Hint="Mobile Number *"
+                                                 materialDesign:HintAssist.IsFloating="True"
+                                                 MaxLength="10"
+                                                 ToolTip="Enter a 10-digit mobile number"
+                                                 AutomationProperties.Name="Mobile Number"
+                                                 TabIndex="2"
+                                                 KeyDown="Input_KeyDown" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+
+                                <!-- Gender Field -->
+                                <StackPanel Orientation="Horizontal" Margin="15,5,5,5" HorizontalAlignment="Left">
+                                    <materialDesign:PackIcon Kind="Email" VerticalAlignment="Center" Margin="5"/>
+                                    <TextBox  x:Name="txtEmail" Width="180" Height="50"
+                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                  Text="{Binding Customer.MailId, ValidatesOnDataErrors=True}"
+                                                  materialDesign:HintAssist.Hint="Email" materialDesign:HintAssist.IsFloating="True" ToolTip="Enter a valid email address"  AutomationProperties.Name="Email" TabIndex="3" KeyDown="Input_KeyDown" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Receipt" Margin="15,5,5,5" VerticalAlignment="Center" />
+                                    <TextBox x:Name="txtGSTNumber"  Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="180" Height="50"
+                                                     Text="{Binding Customer.GSTNumber, ValidatesOnDataErrors=True}"
+                                                     materialDesign:HintAssist.Hint="GST Number" materialDesign:HintAssist.IsFloating="True" CharacterCasing="Upper" ToolTip="Enter a valid GST number (15 characters)" AutomationProperties.Name="GST Number" TabIndex="4" KeyDown="Input_KeyDown"   BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White" MaxLength="15"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <materialDesign:PackIcon Kind="CardAccountDetails" Margin="15,5,5,5" VerticalAlignment="Center" />
+                                    <TextBox   x:Name="txtPanNumber" Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="160" Height="50"
+                                        Text="{Binding Customer.PANNumber}" materialDesign:HintAssist.Hint="PAN Number" materialDesign:HintAssist.IsFloating="True" CharacterCasing="Upper"  ToolTip="PAN Number (auto-generated or read-only)" AutomationProperties.Name="PAN Number"  KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+                                
+                            </WrapPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Address Details Group -->
+
+                <StackPanel>
+                    <TextBlock Text="Address Details" Style="{StaticResource MaterialDesignTitleMediumTextBlock}" Margin="10,25,0,0" Foreground="Purple" FontFamily="Calibiri" FontWeight="DemiBold" FontSize="16" />
+                    <Grid>
+                        <StackPanel Orientation="Vertical" Height="70" VerticalAlignment="Top">
+                            <WrapPanel Margin="10" Orientation="Horizontal" ItemHeight="Auto" ItemWidth="Auto">
+
+                                <!-- Adress -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Home" VerticalAlignment="Top" Margin="7,5,5,5"/>
+                                    <TextBox x:Name="txtAddress" Grid.Column="1" Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="250" Height="50" Text="{Binding Customer.Address}" materialDesign:HintAssist.Hint="Address" materialDesign:HintAssist.IsFloating="True" AcceptsReturn="True" TextWrapping="Wrap"  ToolTip="Enter the complete address" AutomationProperties.Name="Address" TabIndex="5" KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <!--State-->
+                                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="MapMarker" VerticalAlignment="Center" Margin="4,0"/>
+                                        <TextBox  x:Name="txtState" 
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="150"
+                                                Text="{Binding Customer.State}"
+                                                materialDesign:HintAssist.Hint="State *"
+                                                materialDesign:HintAssist.IsFloating="True"
+                                                AutomationProperties.Name="State"  KeyDown="Input_KeyDown" Height="48"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                    </StackPanel>
+
+                                    <!--Statte Code-->
+                                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" HorizontalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="Numeric" VerticalAlignment="Center" Margin="4,0"/>
+                                        <TextBox x:Name="txtStateCode"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="100" Height="50"                                                 Text="{Binding Customer.StateCode}"
+                                                 materialDesign:HintAssist.Hint="State Code"
+                                                 materialDesign:HintAssist.IsFloating="True"
+                                                 IsReadOnly="True"
+                                                 MaxLength="2"
+                                                 ToolTip="State code (auto-generated)"
+                                                 AutomationProperties.Name="State Code"
+                                                  KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                    </StackPanel>
+
+                                    <!-- District -->
+
+                                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" HorizontalAlignment="Right">
+                                        <materialDesign:PackIcon Kind="City" VerticalAlignment="Center" Margin="4,0"/>
+                                        <TextBox x:Name="txtDistrict"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="130"
+                                                Text="{Binding Customer.District}"
+                                                materialDesign:HintAssist.Hint="District"
+                                                materialDesign:HintAssist.IsFloating="True"
+                                                ToolTip="Enter the district"
+                                                AutomationProperties.Name="District"
+                                                TabIndex="6"
+                                                KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                    </StackPanel>
+
+                                    <!-- City -->
+
+                                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" HorizontalAlignment="Right">
+                                        <materialDesign:PackIcon Kind="CityVariant" VerticalAlignment="Center" Margin="4,0"/>
+                                        <TextBox  x:Name="txtCity"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="130"
+                                                  Text="{Binding Customer.City}"
+                                                  materialDesign:HintAssist.Hint="City"
+                                                  materialDesign:HintAssist.IsFloating="True"
+                                                  ToolTip="Enter the city"
+                                                  AutomationProperties.Name="City"
+                                                  TabIndex="7"
+                                                  KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                    </StackPanel>
+
+                                    <!-- Village -->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <materialDesign:PackIcon Kind="Home" VerticalAlignment="Center" Margin="4,0"/>
+                                        <TextBox x:Name="txtVillage"
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="120"
+                                                  Text="{Binding Customer.Village}"
+                                                  materialDesign:HintAssist.Hint="Village"
+                                                  materialDesign:HintAssist.IsFloating="True"
+                                                  ToolTip="Enter the village (if applicable)"
+                                                  AutomationProperties.Name="Village"
+                                                  TabIndex="8"
+                                                  KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                    </StackPanel>
+
+                                    <!-- Pin Code -->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <materialDesign:PackIcon Kind="MapMarkerRadius" VerticalAlignment="Center" Margin="4,0"/>
+                                        <TextBox  x:Name="txtPinCode"
+                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="140" 
+                                                 Text="{Binding Customer.PinCode, ValidatesOnDataErrors=True}"
+                                                 materialDesign:HintAssist.Hint="PIN Code "
+                                                 materialDesign:HintAssist.IsFloating="True"
+                                                 MaxLength="6"
+                                                 ToolTip="Enter a 6-digit PIN code"
+                                                 AutomationProperties.Name="PIN Code"
+                                                 TabIndex="9"
+                                                 KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+
+
+                <!-- Bank Group -->
+                <StackPanel Height="200">
+                    <TextBlock Text="Bank Information" Style="{StaticResource MaterialDesignTitleMediumTextBlock}" Margin="10,40,0,0" Foreground="Purple" FontFamily="Calibiri" FontWeight="DemiBold" FontSize="16" Height="25"/>
+                    <Grid>
+                        <StackPanel Orientation="Vertical" Margin="0,39,0,0" Height="83" VerticalAlignment="Top">
+                            <WrapPanel Margin="10" Orientation="Horizontal" ItemHeight="Auto" ItemWidth="Auto">
+
+                                <!-- Account Number -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <materialDesign:PackIcon Kind="Bank" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <TextBox x:Name="txtAccountNumber" Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="200"
+                                             Text="{Binding Customer.AccountNumber}"
+                                             materialDesign:HintAssist.Hint="Account Number"
+                                             materialDesign:HintAssist.IsFloating="True"
+                                             ToolTip="Enter the bank account number"
+                                             AutomationProperties.Name="Account Number"
+                                             TabIndex="10"
+                                             KeyDown="Input_KeyDown"   BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+
+                                <!-- Account Type-->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="BankOutline" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <ComboBox  Style="{StaticResource MaterialDesignOutlinedComboBox}" Width="180"
+                                               SelectedValue="{Binding Customer.AccountType, UpdateSourceTrigger=PropertyChanged}"
+                                               SelectedValuePath="Content"
+                                               materialDesign:HintAssist.Hint="Account Type"
+                                               materialDesign:HintAssist.IsFloating="True"
+                                               ToolTip="Select the account type"
+                                               AutomationProperties.Name="Account Type"
+                                               TabIndex="11"
+                                              KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White">
+                                        <ComboBoxItem Content="Savings"/>
+                                        <ComboBoxItem Content="Current"/>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <!-- IFSC -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Barcode" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <TextBox x:Name="txtIfsc" Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="150"
+                                              Text="{Binding Customer.Ifsc, ValidatesOnDataErrors=True}"
+                                               materialDesign:HintAssist.Hint="IFSC"
+                                               materialDesign:HintAssist.IsFloating="True"
+                                               CharacterCasing="Upper"
+                                               ToolTip="Enter the IFSC code"
+                                               AutomationProperties.Name="IFSC"
+                                               TabIndex="12"
+                                               KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+
+                                <!-- Bank Name-->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <materialDesign:PackIcon Kind="BankOutline" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <TextBox x:Name="txtBankName" Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="200"
+                                              Text="{Binding Customer.BankName}"
+                                              materialDesign:HintAssist.Hint="Bank Name"
+                                              materialDesign:HintAssist.IsFloating="True"
+                                              ToolTip="Enter the bank name"
+                                              AutomationProperties.Name="Bank Name"
+                                              TabIndex="13"
+                                              KeyDown="Input_KeyDown"   BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+
+                                <!-- Bank Branch-->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <materialDesign:PackIcon Kind="MapMarkerRadius" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                    <TextBox x:Name="txtBankBranch" Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="200"
+                                             Text="{Binding Customer.BankBranch}"
+                                             materialDesign:HintAssist.Hint="Bank Branch"
+                                             materialDesign:HintAssist.IsFloating="True"
+                                             ToolTip="Enter the bank branch"
+                                             AutomationProperties.Name="Bank Branch"
+                                             TabIndex="14"
+                                             KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+
+                                <!-- Narration -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <materialDesign:PackIcon Kind="Note" VerticalAlignment="Top" Margin="10,0,5,5"/>
+                                    <TextBox x:Name="txtNarration"  Style="{StaticResource MaterialDesignOutlinedTextBox}" Width="200"
+                                              Text="{Binding Customer.Narration}"
+                                              materialDesign:HintAssist.Hint="Narration"
+                                              materialDesign:HintAssist.IsFloating="True"
+                                              AcceptsReturn="True"
+                                              TextWrapping="Wrap"
+                                              Height="50"
+                                              ToolTip="Enter any additional notes"
+                                              AutomationProperties.Name="Narration"
+                                              TabIndex="15"
+                                              KeyDown="Input_KeyDown"  BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="9" Background="White"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                    <Button x:Name="SaveButton"
+        Style="{StaticResource AnimatedButton}"
+        Command="{Binding SaveCommand}"
+        ToolTip="Save the party details"
+        AutomationProperties.Name="Save Button"
+        TabIndex="21"  Background="Purple"
+        Foreground="White" Click="SaveButton_Click">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <ContentPresenter Content="{Binding}"/>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSaving}" Value="True">
+                                        <Setter Property="Content" Value="Saving..."/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ContentSave" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Save"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="Close"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Command="{Binding CancelCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                            Margin="8,0"
+                            ToolTip="Cancel and close the window"
+                            AutomationProperties.Name="Cancel Button"
+                            TabIndex="20" Background="Purple"
+                            Foreground="White">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Cancel" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Close"/>
+                        </StackPanel>
+                        
+                    </Button>
+                    <Button x:Name="Clear"
+                             ToolTip="Clear the Coloum"
+                             AutomationProperties.Name="Clear Button"
+                             TabIndex="20" Background="Purple"
+                             Foreground="White" Click="Clear_Click">            
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Clear" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Clear"/>
+                        </StackPanel>
+
+                    </Button>
+
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

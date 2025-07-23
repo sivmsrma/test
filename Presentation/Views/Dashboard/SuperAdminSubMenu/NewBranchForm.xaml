@@ -1,0 +1,374 @@
+<Window x:Class="Terret_Billing.Presentation.Dashboards.SuperAdminSubMenu.NewBranchForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Terret_Billing.Presentation.Views.Dashboard.SuperAdminSubMenu"
+        xmlns:viewmodels="clr-namespace:Terret_Billing.Presentation.ViewModels"
+        xmlns:converters="clr-namespace:Terret_Billing.Presentation.Converters"
+        xmlns:helpers="clr-namespace:Terret_Billing.Presentation.Helpers"
+        mc:Ignorable="d"
+        Title="NewBranchForm" Height="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:StringNullOrEmptyToVisibilityConverter x:Key="StringNullOrEmptyToVisibilityConverter"/>
+        <converters:FirmTypeToColorConverter x:Key="FirmTypeToColorConverter"/>
+        <Style x:Key="PlaceholderTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Border x:Name="Bd"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="2"/>
+                            <Grid>
+                                
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              Margin="2"
+                                              VerticalAlignment="Stretch"/>
+                                <TextBlock Text="{TemplateBinding Tag}"
+                                           Foreground="Gray"
+                                           Margin="7,0,0,0"
+                                           IsHitTestVisible="False"
+                                           VerticalAlignment="Center"
+                                           Visibility="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}"/>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Background" Value="#FFF0F0F0"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#FFD9D9D9"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#FF7EB4EA"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#FF569DE5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#DDDDDD"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8,2"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Background="White" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Company Details -->
+            <Border Grid.Column="0" Grid.Row="0" Margin="5" Background="LightGray" BorderBrush="Black" BorderThickness="1" CornerRadius="8" VerticalAlignment="Stretch" Height="Auto">
+                <StackPanel Margin="15" VerticalAlignment="Stretch" Height="Auto">
+                    <TextBlock Text="Company Details" FontWeight="Bold" Foreground="Purple" FontSize="16" Margin="0,0,0,10" FontFamily="Calibri"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="1" Text="*" Foreground="Red" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                        <TextBox x:Name="FirmId" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Firm Id (PP,RP,SR)" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.FirmId, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="0"/>
+                    </Grid>
+
+                    <TextBlock Text="(Firm Id should be unique)"  Foreground="Red" FontSize="12" Margin="0,0,0,10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="1" Text="*" Foreground="Red" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                        <TextBox Grid.Column="0" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Registration Number" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.RegistrationNo, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="1"/>
+                    </Grid>
+
+                    <TextBox x:Name="ShopName" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Shop Name" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.ShopName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="2"/>
+                    <TextBox x:Name="FirmDescription" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Firm Description" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.FirmDescription, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="3"/>
+                    <TextBox x:Name="Address" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Address" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.Address, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="4"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBox x:Name="State" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="State" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.State, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="0,0,54,10" Width="188" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="5"/>
+                        <TextBox x:Name="District" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="District" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.District, UpdateSourceTrigger=PropertyChanged}" Width="187" Height="25" Margin="0,0,0,10" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="6"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBox x:Name="City" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="City" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.City, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,15,10" Height="25" Width="166" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="7"/>
+                        <TextBox x:Name="Pincode" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Pincode" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.Pincode, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,15,10" Width="81" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="8"/>
+                        <TextBox x:Name="PhoneNumber" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Phone Number" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Width="152" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="9"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBox x:Name="EmailId" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Email Id" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.Email, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,55,10" Width="188" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="10"/>
+                        <TextBox x:Name="WebsiteName" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Website Name" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.WebsiteName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Width="185" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="11"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <RadioButton Content="My Firms"
+                 GroupName="FirmTypeGroup"
+                 IsChecked="{Binding IsMyFirmSelected, Mode=TwoWay}"
+                 Command="{Binding SelectFirmTypeCommand}"
+                 CommandParameter="MY FIRM"
+                 FontSize="14" FontFamily="Calibri"
+                 Foreground="Black"
+                                     Background="White"
+                                     FontWeight="DemiBold"
+                 Width="188" Height="25" Margin="0,0,55,10">
+                            <RadioButton.Style>
+                                <Style TargetType="RadioButton">
+                                    <Setter Property="Background" Value="#DDDDDD"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#F7B32B"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </RadioButton.Style>
+                        </RadioButton>
+
+                        <RadioButton Content="Self"
+                 GroupName="FirmTypeGroup"
+                 IsChecked="{Binding IsSelfSelected, Mode=TwoWay}"
+                 Command="{Binding SelectFirmTypeCommand}"
+                 CommandParameter="SELF"
+                 FontSize="14" FontFamily="Calibri"
+                 Foreground="Black"
+                                     FontWeight="DemiBold"
+                                     Background="White"
+                                      
+                 Width="186" Height="25" Margin="0,0,0,10">
+                            <RadioButton.Style>
+                                <Style TargetType="RadioButton">
+                                    <Setter Property="Background" Value="#DDDDDD"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#F7B32B"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </RadioButton.Style>
+                        </RadioButton>
+                    </StackPanel>
+
+                    <TextBox x:Name="Comments" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Comments/ Other Info" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.Comments, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"  Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="14"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBox x:Name="WhatsAppLink" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="WhatsApp Link" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.WhatsappLink, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="0,0,18,10" Width="125" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="15"/>
+                        <TextBox x:Name="FacebookLink" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="FaceBook Link" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.FacebookLink, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="0,0,18,10" Width="125" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="16"/>
+                        <TextBox x:Name="InstagramLink" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Instagram Link" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.InstagramLink, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Width="125" Height="25" Margin="0,0,0,10" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="17"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBox x:Name="EInvoiceApi" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="E-Invoice Api " FontSize="14" FontFamily="Calibri" Text="{Binding Branch.EInvoiceApiId, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,55,10" Width="188" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="18"/>
+                        <TextBox Style="{StaticResource PlaceholderTextBoxStyle}" Tag="E-Invoice Api Key" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.EInvoiceApiKey, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Width="187" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="19"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBox x:Name="EInvoiceUsername" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="E-Invoice Username" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.EInvoiceUsername, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,55,10" Width="188" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="20"/>
+                        <TextBox x:Name="EInvoicePassword" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="E-Invoice Password" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.EInvoicePassword, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Width="187" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="21"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Forms Details -->
+            <Border Grid.Column="1" Grid.Row="0" Margin="5" Background="LightGray" BorderBrush="Black" BorderThickness="1" CornerRadius="8" VerticalAlignment="Stretch" Height="Auto">
+                <StackPanel Margin="15" VerticalAlignment="Stretch" Height="Auto">
+                    <TextBlock x:Name="FormDetails" Text="Form Details" FontWeight="Bold" Foreground="Purple" FontSize="16" Margin="0,0,0,10"/>
+                    <TextBox x:Name="PaymentBankDetails" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Payment Bank Details" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.PaymentBankDetails, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="22"/>
+                    <TextBox x:Name="AccountHolderName" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Account Holder Name" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.AccountHolderName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="23"/>
+                    <TextBox x:Name="AccountNumber" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Account Number" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.PaymentBankACNo, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="24"/>
+                    <TextBox x:Name="IFSCCode" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="IFSC Code" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.PaymentBankIFSCCode, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="25"/>
+                    <TextBox x:Name="PaymentDeclaration" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Payment Declaration" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.PaymentDeclaration, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="35" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="26"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBlock x:Name="FinancialYearStartDate" Text="Financial Year Start Date : " Foreground="Purple" FontSize="14" FontFamily="Calibri" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <DatePicker SelectedDate="{Binding Branch.FinancialYearStartDate, Mode=TwoWay}" Width="80" Margin="5,0" BorderThickness="1"/>
+                    </StackPanel>
+                    <TextBox x:Name="CashBalance" Style="{StaticResource PlaceholderTextBoxStyle}" FontSize="14" FontFamily="Calibri" Tag="Cash Balance" Text="{Binding Branch.CashBalance, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="27"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <TextBox x:Name="GSTINNumber" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="GSTIN Number" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.GSTIN, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="0,0,55,10" Height="25" Width="188" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="28"/>
+                        <TextBox x:Name="PANNumber" Style="{StaticResource PlaceholderTextBoxStyle}" Tag="PAN Number" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.PANNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="0,0,0,10" Height="25" Width="187" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="29"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0" >
+                        <TextBlock x:Name="PrincipalAmountLimitFrom" Text="Principal Amount Limit From : " FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,55,0" Height="25" />
+                        <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Principal Amount Limit To : " Height="25" Margin="15,0,0,10"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                        <TextBox Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Principal Start Amount" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.PrincipalAmtStart, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="0,0,55,10" Height="25" Width="188" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="30" TextChanged="TextBox_TextChanged"/>
+                        <TextBox Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Principal End Amount" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.PrincipalAmtEnd, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="0,0,0,10" Height="25" Width="187" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="31"/>
+                    </StackPanel>
+                    <TextBox Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Form Header Information" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.FormHeader, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="32"/>
+                    <TextBox Style="{StaticResource PlaceholderTextBoxStyle}" Tag="Form Footer Information" FontSize="14" FontFamily="Calibri" Text="{Binding Branch.FormFooter, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" Height="25" helpers:EnterKeyTraversal.IsEnabled="True" TabIndex="33"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Company Logo and Images -->
+            <Border Grid.Column="2" Grid.Row="0" Margin="5" Background="LightGray" BorderBrush="Black" BorderThickness="1" CornerRadius="8" VerticalAlignment="Stretch" Height="Auto">
+                <StackPanel Margin="15">
+                    <TextBlock Text="Company Logo" FontWeight="Bold" Foreground="Purple" FontSize="14" Margin="0,0,0,10"/>
+                    <Image Source="/Dashboards/Assets/picture.png" Height="50" Margin="0,0,0,10"/>
+                    <Button Content="Select Logo"
+                            Command="{Binding UploadLogoCommand}"
+                            Background="Purple"
+                            Foreground="White"
+                            FontSize="12" FontFamily="Calibri"
+                            BorderThickness="0"
+                            Margin="0,0,0,5"/>
+
+                    <TextBlock Text="Firm Logo" FontWeight="Bold" FontSize="14" FontFamily="Calibri" Foreground="Purple" Margin="0,0,0,10"/>
+                    <Image Source="/Dashboards/Assets/picture.png" Height="50" Margin="0,0,0,10"/>
+                    
+                    <Button Content="Select Left Image"
+                            Command="{Binding UploadLeftImageCommand}"
+                            Background="Purple"
+                            Foreground="White"
+                            FontSize="12" FontFamily="Calibri"
+                            BorderThickness="0"
+                            Margin="0,0,0,5"/>
+
+                    <TextBlock Text="Owner Signature" FontWeight="Bold" Foreground="Purple" FontSize="14" FontFamily="Calibri" Margin="0,0,0,10"/>
+                    <Image Source="/Dashboards/Assets/picture.png" Height="50" Margin="0,0,0,10"/>
+                    <Button Content="Select Signature"
+                            Command="{Binding UploadSignatureCommand}"
+                            Background="Purple"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontSize="12" FontFamily="Calibri"
+                            Margin="0,0,0,5"/>
+
+                    <TextBlock Text="QR Code" FontWeight="Bold" Foreground="Purple" FontSize="14" FontFamily="Calibri" Margin="0,0,0,10"/>
+                    <Image Source="/Dashboards/Assets/picture.png" Height="50" Margin="0,0,0,10"/>
+                    <Button Content="Select QR Code"
+                            Command="{Binding UploadQrCodeCommand}"
+                            Background="Purple"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontSize="14" FontFamily="Calibri"
+                            Margin="0,0,0,5"/>
+                    <StackPanel Orientation="Horizontal" Height="50">
+                        
+                        <Button Content="Save"
+                                Command="{Binding SaveCommand}"
+                                Background="Purple"
+                                Foreground="White"
+                                FontSize="14" FontFamily="Calibri"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Height="30" Width="80" Margin="20,10,30,10"/>
+                        
+                        <Button Content="Update"
+                                Command="{Binding SaveCommand}"
+                                Background="Purple"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                FontSize="14" FontFamily="Calibri"
+                                BorderThickness="0"
+                                Height="30" Width="80" Margin="20,10,30,10"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Bottom: Branches List -->
+            <Border Grid.Row="1" Grid.ColumnSpan="3" Margin="10" Background="LightGray"
+                    BorderBrush="Black" BorderThickness="1" CornerRadius="8">
+                <StackPanel Orientation="Vertical" Margin="5,10,5,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Branches List" FontWeight="Bold" FontSize="16" Margin="0,0,0,5" VerticalAlignment="Center"/>
+                        <Button Grid.Column="1"
+                                Content="Refresh"
+                                Command="{Binding RefreshCommand}"
+                                Margin="0,0,0,5"
+                                Background="Purple"
+                                Foreground="White"
+                                Padding="10,3"
+                                FontSize="14"
+                                FontFamily="Calibri"
+                                FontWeight="Bold"
+                                BorderThickness="0" />
+                    </Grid>
+                    <DataGrid ItemsSource="{Binding Branches}"
+                            SelectedItem="{Binding SelectedBranch, Mode=TwoWay}"
+                            AutoGenerateColumns="False"
+                            HeadersVisibility="Column"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="False"
+                            CanUserResizeColumns="True"
+                            CanUserReorderColumns="False"
+                            CanUserSortColumns="True"
+                            SelectionMode="Single"
+                            SelectionUnit="FullRow"
+                            ColumnHeaderHeight="35"
+                            RowHeight="45"
+                            MaxHeight="131"
+                            MouseDoubleClick="DataGrid_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="" Width="30" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding DataContext.SelectBranchCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"
+                                                Background="#F7B32B"
+                                                Width="24"
+                                                Height="24"
+                                                BorderThickness="0"
+                                                Padding="0"
+                                                Margin="0">
+                                            <TextBlock Text="✓"
+                                                    FontWeight="Bold"
+                                                    Foreground="White"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="FIRM ID" Width="*" Binding="{Binding FirmId}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="FIRM NAME" Width="*" Binding="{Binding ShopName}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="FIRM TYPE" Width="*" Binding="{Binding FirmType}" IsReadOnly="True" />
+
+                            <DataGridTemplateColumn Header="DELETE" Width="*" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Delete"
+                                                Command="{Binding DataContext.DeleteBranchCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"
+                                                Background="Purple"
+                                                Foreground="White"
+                                                Height="30"
+                                                BorderThickness="0"
+                                                Padding="5,2" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Window>
+

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="Terret_Billing.Presentation.Views.Dashboard.SuperAdminDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Terret_Billing.Presentation.Views.Dashboard"
+        xmlns:viewmodels="clr-namespace:Terret_Billing.Presentation.ViewModels"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Super Admin Dashboard" Height="800" Background="LightGray">
+    <Window.Resources>
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Foreground" Value="#222"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,20,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Purple"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="UserProfileButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Dropdown Button Style -->
+        <Style x:Key="DropdownButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Margin" Value="0,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFF8E1"/>
+                    <Setter Property="Foreground" Value="#F7B32B"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Context Menu Style -->
+        <Style x:Key="CompactContextMenuStyle" TargetType="ContextMenu">
+            <Setter Property="Background" Value="#FFF8E1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <!-- Context Menu Item Style -->
+        <Style x:Key="ContextMenuItemStyle" TargetType="MenuItem">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Viewbox Stretch="UniformToFill">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Top Nav -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Branch Dropdown & Buttons -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Summary Cards -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Charts Row -->
+                    <RowDefinition Height="*"/>
+                    <!-- Tables Row -->
+                </Grid.RowDefinitions>
+
+                <!-- Top Navigation Bar -->
+                <Border Grid.Row="0" Background="#3F51B5" CornerRadius="10" Padding="0,0,0,0" Margin="6,0,0,10">
+                    <DockPanel Height="60">
+                        <!-- Logo and App Name -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,20">
+                            <Grid Width="38" Height="38">
+                                <Ellipse Fill="#FF9800" Margin="10,12,0,0"/>
+                                <TextBlock Text="T" Foreground="White" FontWeight="Bold" FontSize="22" Margin="17,10,0,5"/>
+                            </Grid>
+                            <TextBlock Text="erret" FontWeight="Bold" FontSize="26" Foreground="White" Margin="5,10,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <TextBlock Text="User_Name:" FontSize="12" FontWeight="DemiBold" FontFamily="Calibri" Foreground="White" Margin="140,0,0,0"/>
+                            <TextBlock x:Name="txtUserName" FontSize="12" FontFamily="Calibri"  FontWeight="DemiBold" Foreground="White"/>
+
+                            <Button Content="Reports" Style="{StaticResource MenuButtonStyle}" Margin="250,0,0,0" FontWeight="DemiBold" FontSize="14" Foreground="White" FontFamily="Calibri"/>
+
+                            <!-- Settings Menu -->
+                            <Button Content="Settings" x:Name="SettingsButton" Style="{StaticResource MenuButtonStyle}" Margin="30,0,0,0" FontWeight="DemiBold" FontSize="14" Foreground="White" FontFamily="Calibri">
+                                <Button.ContextMenu>
+                                    <ContextMenu Style="{StaticResource CompactContextMenuStyle}">
+                                        <MenuItem Header="Time Zone" Style="{StaticResource ContextMenuItemStyle}"/>
+                                        <MenuItem Header="Date Format (dd/MM/yyyy or MM/dd/yyyy)" Style="{StaticResource ContextMenuItemStyle}"/>
+                                        <MenuItem Header="Language Selection" Style="{StaticResource ContextMenuItemStyle}"/>
+                                        <MenuItem Header="Number Formatting" Style="{StaticResource ContextMenuItemStyle}"/>
+                                        <MenuItem Header="Stock Alert Thresholds" Style="{StaticResource ContextMenuItemStyle}"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+
+                            <Button Content="Users" Style="{StaticResource MenuButtonStyle}" Margin="30,0,0,0" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri" Foreground="White" Click="UsersButton_Click"/>
+
+                            <!-- Backup Menu -->
+                            <Button Content="Set Rate" x:Name="SetRateButton" Foreground="White"
+                                Style="{StaticResource MenuButtonStyle}" 
+                                Margin="30,0,0,0" FontWeight="DemiBold" FontSize="14" 
+                                FontFamily="Calibri" 
+                                    Click="SetRateButton_Click"/>
+
+                            <!-- Direct Logout Button -->
+
+                            <Button Style="{StaticResource MenuButtonStyle}"
+                            Margin="120,0,30,0" FontWeight="DemiBold" FontSize="14"
+                            Click="Logout_Click" FontFamily="Calibri"  BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Logout" Width="24" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock Text="LogOut" FontWeight="DemiBold" FontSize="12" FontFamily="Calibri" Foreground="White" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+
+                <!-- User Profile Popup -->
+                <Popup x:Name="UserProfilePopup" PlacementTarget="{Binding ElementName=UserProfileButton}" 
+               Placement="Bottom" StaysOpen="True" AllowsTransparency="True" 
+               PopupAnimation="Fade" HorizontalOffset="-40">
+                    <Border Background="White" BorderBrush="LightGray" BorderThickness="1" CornerRadius="0" Padding="0" Width="112">
+                        <StackPanel>
+                            <Button Content="Profile Settings" Width="110" Height="36" Margin="0,0,0,0" 
+                            Command="{Binding ProfileSettingsCommand}"
+                            Background="#FFF8E1" BorderBrush="LightGray"  BorderThickness="1" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+
+                <!-- Branch Dropdown & Buttons -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="6,0,0,20">
+                    <ComboBox Width="120" Height="30" Margin="0,0,20,0" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" Background="White"
+                      ItemsSource="{Binding Branches}" 
+                      SelectedItem="{Binding SelectedBranch}"
+                      DisplayMemberPath="ShopName">
+                    </ComboBox>
+                    <Button Content="New Branch" Width="100" Height="30" Margin="0,0,10,0" 
+                    Click="NewBranchButton_Click"
+                    Background="Purple" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5"
+                    Foreground="White" FontWeight="DemiBold" FontFamily="Calibri" FontSize="12"/>
+                </StackPanel>
+
+                <!-- Summary Cards -->
+                <UniformGrid Grid.Row="2" Columns="3" Margin="0,0,0,20" HorizontalAlignment="Stretch" Height="110">
+                    <Border Background="White" CornerRadius="10" Margin="10" Padding="20" BorderBrush="Black" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Width="40" Height="40" Source="/Presentation/Views/Dashboard/Resources/TotalSales.png"/>
+                            <StackPanel Margin="15,0,0,0">
+                                <TextBlock Text="{Binding TotalSales, StringFormat='₹ {0:N0}'}" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri"/>
+                                <TextBlock Text="Total Sales" FontFamily="Calibri" FontSize="12" Foreground="Black"  FontWeight="DemiBold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Background="White" CornerRadius="10" Margin="10" Padding="20" BorderBrush="Black" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Width="40" Height="40" Source="/Presentation/Views/Dashboard/Resources/TotalPurchase.png"/>
+                            <StackPanel Margin="15,0,0,0">
+                                <TextBlock Text="{Binding TotalPurchases, StringFormat='₹ {0:N0}'}" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri"/>
+                                <TextBlock Text="Total Purchase" FontSize="12" FontFamily="Calibri" Foreground="Black" FontWeight="DemiBold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Background="White" CornerRadius="10" Margin="10" Padding="20" BorderBrush="Black" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Width="40" Height="40" Source="/Presentation/Views/Dashboard/Resources/TotalProfit.png"/>
+                            <StackPanel Margin="15,0,0,0">
+                                <TextBlock Text="{Binding TotalProfit, StringFormat='₹ {0:N0}'}" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri"/>
+                                <TextBlock Text="Total Profit" FontSize="12" FontFamily="Calibri" Foreground="Black" FontWeight="DemiBold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <!-- Charts Row -->
+                <Grid Grid.Row="3" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Sales & Purchases Chart -->
+                    <Border Grid.Column="0" Background="White" CornerRadius="10" Margin="10" Padding="20" BorderBrush="Black" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Sales &amp; Purchases" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri" Margin="0,0,0,10"/>
+                            <Border Height="140" Background="White" CornerRadius="8" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                <TextBlock Text="[Chart Placeholder]" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                    <!-- Top Selling Items Pie Chart -->
+                    <Border Grid.Column="1" Background="White" CornerRadius="10" Margin="10" Padding="20" BorderBrush="Black" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Top Selling Items" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri" Margin="0,0,0,10"/>
+                            <Border Height="140" Background="White" CornerRadius="70" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140">
+                                <TextBlock Text="[Pie Chart]" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                            </Border>
+                            <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                    <Ellipse Width="12" Height="12" Fill="Purple"/>
+                                    <TextBlock Text="  Sales" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                    <Ellipse Width="12" Height="12" Fill="MediumPurple"/>
+                                    <TextBlock Text="  Purchases" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock Text="2.9%" FontWeight="Bold" Foreground="#A68B00" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Tables Row -->
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Branch Summary Table -->
+                    <Border Grid.Column="0" Background="White" CornerRadius="10" Margin="10" Padding="20" BorderBrush="Black" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Branch Summary" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri" Margin="0,0,0,10"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Main Branch" Grid.Row="0" Grid.Column="0"/>
+                                <TextBlock Text="Amit" Grid.Row="0" Grid.Column="1"/>
+                                <TextBlock Text="₹ 7,20,000" Grid.Row="0" Grid.Column="2"/>
+                                <TextBlock Text="North Branch" Grid.Row="1" Grid.Column="0"/>
+                                <TextBlock Text="Pooja" Grid.Row="1" Grid.Column="1"/>
+                                <TextBlock Text="₹ 3,10,000" Grid.Row="1" Grid.Column="2"/>
+                                <TextBlock Text="South Branch" Grid.Row="2" Grid.Column="0"/>
+                                <TextBlock Text="Rahul" Grid.Row="2" Grid.Column="1"/>
+                                <TextBlock Text="₹ 2,20,000" Grid.Row="2" Grid.Column="2"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <!-- Branch/Manager/Sales Table -->
+                    <Border Grid.Column="1" Background="White" CornerRadius="10" Margin="10" Padding="20" BorderBrush="Black" BorderThickness="1">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Branch" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri" Margin="0,0,0,10" Grid.Column="0"/>
+                                <TextBlock Text="Manager" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri" Margin="0,0,0,10" Grid.Column="1"/>
+                                <TextBlock Text="Sales" FontWeight="DemiBold" FontSize="14" FontFamily="Calibri" Margin="0,0,0,10" Grid.Column="2"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Main Branch" Grid.Row="0" Grid.Column="0"/>
+                                <TextBlock Text="Pooja" Grid.Row="0" Grid.Column="1"/>
+                                <TextBlock Text="₹ 7,20,000" Grid.Row="0" Grid.Column="2"/>
+                                <TextBlock Text="North Branch" Grid.Row="1" Grid.Column="0"/>
+                                <TextBlock Text="Pooja" Grid.Row="1" Grid.Column="1"/>
+                                <TextBlock Text="₹ 3,10,000" Grid.Row="1" Grid.Column="2"/>
+                                <TextBlock Text="South Branch" Grid.Row="2" Grid.Column="0"/>
+                                <TextBlock Text="Rahul" Grid.Row="2" Grid.Column="1"/>
+                                <TextBlock Text="₹ 2,20,000" Grid.Row="2" Grid.Column="2"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Viewbox>
+    </ScrollViewer>
+</Window>

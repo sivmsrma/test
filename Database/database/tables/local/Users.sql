@@ -1,0 +1,27 @@
+﻿CREATE TABLE `Users` (
+  `Id` BIGINT AUTO_INCREMENT,      
+  `firm_id` VARCHAR(50)   NOT NULL,
+  `user_name` VARCHAR(100)   DEFAULT NULL,
+  `email` VARCHAR(100)   DEFAULT NULL,
+  `phone_number` VARCHAR(20)   DEFAULT NULL,
+  `password` VARCHAR(255)   DEFAULT NULL,
+  `user_type` VARCHAR(50)   DEFAULT NULL,
+  `profile_Image` LONGBLOB DEFAULT NULL,
+  `created_by` VARCHAR(100)   DEFAULT NULL,
+  `years_of_exp` TEXT   DEFAULT NULL,
+  `address` TEXT   DEFAULT NULL,
+  `gender` VARCHAR(10)   DEFAULT NULL,
+  `aadhar_front` LONGBLOB DEFAULT NULL,
+  `aadhar_back` LONGBLOB DEFAULT NULL,
+  `pancard` LONGBLOB DEFAULT NULL,
+  `resume` LONGBLOB DEFAULT NULL,,
+  `certificate` LONGBLOB DEFAULT NULL,
+  `others` LONGBLOB DEFAULT NULL,
+  `salary` DECIMAL(10,2) DEFAULT NULL,
+  `assigned_branch` VARCHAR(100)   DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `IsDataPostOnServer` TINYINT(1) DEFAULT NULL,
+CONSTRAINT `fk_users_firm_id` 
+    FOREIGN KEY (`firm_id`) REFERENCES `company_details`(`Id`)
+);

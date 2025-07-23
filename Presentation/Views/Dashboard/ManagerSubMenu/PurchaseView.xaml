@@ -1,0 +1,365 @@
+<Window x:Class="Terret_Billing.Presentation.Dashboards.ManagerSubMenu.PurchaseView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Terret_Billing.Presentation.Dashboards.ManagerSubMenu"
+    xmlns:vm="clr-namespace:Terret_Billing.Presentation.ViewModels"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:materialDesign1="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    xmlns:materialDesign2="http://materialdesigninxaml.net/winfx/xaml/transitions"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d"
+    Title="Purchase Entry" 
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    Background="LightGray"
+    FontFamily="Calibri"
+    Style="{StaticResource MaterialDesignWindow}"
+    Height="700">
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <Grid Height="762" Margin="10,0,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" MinHeight="80"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Purchase Entry" Grid.Row="0" FontSize="16" FontFamily="Calibri" FontWeight="Bold" Margin="0,0,0,10"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="500,10,72,1">
+            <TextBlock Text="User Name: " FontSize="15" FontFamily="Calibri" FontWeight="DemiBold"/>
+            <TextBlock x:Name="txtUserName" FontSize="15" FontFamily="Calibri" FontWeight="DemiBold"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="900,10,72,1">
+            <TextBlock Text="Firm Name: " FontSize="15" FontFamily="Calibri" FontWeight="DemiBold"/>
+            <TextBlock x:Name="txtFirmName" FontSize="15" FontFamily="Calibri" FontWeight="DemiBold"/>
+        </StackPanel>
+
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10,10,10,10">
+            <StackPanel Margin="10,0,10,0">
+                <TextBlock Text="Bill No:" FontSize="14" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" />
+                <TextBox x:Name="txtBillNo" TabIndex="0" Padding="7" Background="White" Text="{Binding CurrentPurchase.BillNo, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Height="35" Width="150" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+            <StackPanel Margin="10,0,10,0">
+                <TextBlock Text="Party Name:" FontSize="14" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" />
+                <ComboBox x:Name="cmbParty" TabIndex="1" Padding="7" Background="White" ItemsSource="{Binding Parties}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedParty}" IsEditable="True" Height="35" Width="250" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+            <StackPanel Margin="10,0,10,0">
+                <TextBlock Text="Date:" FontSize="14" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center" />
+                <DatePicker x:Name="dtPurchaseDate" TabIndex="2" Padding="7" Background="White" SelectedDate="{Binding Purchase.PurchaseDate}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Height="35" Width="150" materialDesign:TextFieldAssist.TextFieldCornerRadius="5"  />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="10,10,10,10">
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="160">
+                <TextBlock Text="Metal" FontSize="14" FontFamily="Calibri" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                <ComboBox x:Name="cmbMetal" TabIndex="3" Padding="4" Background="White" ItemsSource="{Binding MetalTypes}" FontSize="14" FontFamily="Calibri" SelectedItem="{Binding SelectedMetal, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="100">
+                <TextBlock Text="HSN Code" FontSize="14" FontWeight="DemiBold" FontFamily="Calibri" HorizontalAlignment="Center"/>
+                <TextBox x:Name="txtHSNCode" TabIndex="4" Text="{Binding CurrentItem.HSNCode, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" Height="26"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="80">
+                <TextBlock Text="HUID No" FontSize="14" FontFamily="Calibri" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                <TextBox x:Name="txtHUIDNo" TabIndex="5" Padding="4" Text="{Binding CurrentItem.HuidNo, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" FontFamily="Calibri" Height="25" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="100">
+                <TextBlock Text="Item Name" FontSize="14" FontFamily="Calibri" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                <TextBox x:Name="txtItemName" TabIndex="6" Text="{Binding CurrentItem.ItemName, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" FontFamily="Calibri" Height="25" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="45">
+                <TextBlock Text="Purity" FontSize="14" FontFamily="Calibri" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                <ComboBox x:Name="cmbPurity" TabIndex="7" ItemsSource="{Binding PurityTypes}" Background="White" FontSize="14" FontFamily="Calibri" SelectedItem="{Binding CurrentItem.Purity}" Height="25" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" SelectionChanged="cmbPurity_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="50">
+                <TextBlock Text="Pcs" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtPcs" TabIndex="8" Text="{Binding PCs}" FontSize="14" Background="White" FontFamily="Calibri" BorderBrush="Black" Height="25" BorderThickness="1" Width="42" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="90" Visibility="{Binding HideDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="Gross Wt" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                    <TextBox x:Name="txtGrossWtNonDiamond" TabIndex="9" Text="{Binding CurrentItem.GrossWtText, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" Height="25" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="70" Visibility="{Binding HideDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="Less Wt" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtLessWtNonDiamond" TabIndex="10" Text="{Binding CurrentItem.LessWtText, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" Height="25" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="90" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="Gross Wt" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtGrossWtDiamond" TabIndex="11" Text="{Binding CurrentItem.GrossWtText, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" Height="25" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+
+                <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="70" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="Less Wt" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtLessWtDiamond" TabIndex="12" Text="{Binding CurrentItem.LessWtText, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" Height="25" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                <TextBlock Text="Net Wt." FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtNetWt" TabIndex="18" Text="{Binding CurrentItem.NetWt, Mode=OneWay, StringFormat=N3}" FontSize="14" Background="White" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" Height="25" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="60" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="Dia Ct" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtDiaCtDiamond" TabIndex="15" Text="{Binding CurrentItem.DiaCtText, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" Height="25" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="60" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="SDia Ct" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtSDiaCtDiamond" TabIndex="15" Text="{Binding CurrentItem.SDiaCtText, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" Height="25" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="60" Visibility="{Binding ShowLooseDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="Dia Ct" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtDiaCtLoose" TabIndex="16" Text="{Binding CurrentItem.DiaCtText, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" Height="25" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="70" Visibility="{Binding IsLooseCutDiamond, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="Stone Ct" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtStoneCt" TabIndex="17" Text="{Binding CurrentItem.StoneCtText, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Background="White" Height="25" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+                <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="90" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="Rate (₹/gm)" FontSize="14" FontFamily="Calibri" Foreground="Black" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                    <TextBox x:Name="txtRateDiamond" TabIndex="20" Text="{Binding CurrentItem.RateText, UpdateSourceTrigger=PropertyChanged}" Background="White" Height="25" BorderBrush="Black" BorderThickness="1" FontSize="14" FontFamily="Calibri" Width="80" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+                </StackPanel>
+                
+                <StackPanel Orientation="Vertical" Margin="10,0,10,0" Width="90" Visibility="{Binding HideDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="Rate (₹/gm)" FontSize="14" FontFamily="Calibri" Foreground="Black" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                    <TextBox x:Name="txtRateNonDiamond" TabIndex="21" Text="{Binding CurrentItem.RateText, UpdateSourceTrigger=PropertyChanged}" Background="White" Height="25" BorderBrush="Black" BorderThickness="1" FontSize="14" FontFamily="Calibri" Width="80" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+                </StackPanel>
+                
+                <StackPanel Orientation="Vertical" Margin="10,0,10,0" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="D. Rate (₹/ct)" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                    <TextBox x:Name="txtDiamondRateDiamond" TabIndex="22" Text="{Binding CurrentItem.Drate, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Background="White" Height="25" BorderBrush="Black" BorderThickness="1" Width="80" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+                </StackPanel>
+
+                    <StackPanel Orientation="Vertical" Margin="10,0,10,0" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBlock Text="SD. Rate (₹/ct)" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                        <TextBox x:Name="txtSDiamondRateDiamond" TabIndex="22" Text="{Binding CurrentItem.SDrate, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Background="White" Height="25" BorderBrush="Black" BorderThickness="1" Width="80" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+                    </StackPanel>
+                </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0" Visibility="{Binding IsLooseCutDiamond, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="StoneRate (₹/ct)" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtStoneRate" TabIndex="19" Text="{Binding CurrentItem.StoneCharge, UpdateSourceTrigger=PropertyChanged}" Background="White" Height="25" BorderBrush="Black" BorderThickness="1" Width="95" TextChanged="TextBox_TextChanged" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="10,10,10,13" >
+            <StackPanel Orientation="Vertical" Width="70" Margin="10,0,10,0" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="DiaAmount" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="DiaAmount" TabIndex="24" Text="{Binding CurrentItem.DiaAmount, Mode=OneWay, StringFormat=N2}" Background="White" BorderThickness="1" BorderBrush="Black" FontSize="14" FontFamily="Calibri" Height="25" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" TextChanged="txtAmount_TextChanged"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Width="80" Margin="10,0,10,0" Visibility="{Binding ShowDiamondFields, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="SDiaAmount" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="sDiaAmount" TabIndex="24" Text="{Binding CurrentItem.SDiaAmount, Mode=OneWay, StringFormat=N2}" Background="White" BorderThickness="1" BorderBrush="Black" FontSize="14" FontFamily="Calibri" Height="25" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" TextChanged="txtAmount_TextChanged"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Width="80" Margin="10,0,10,0" >
+                <TextBlock Text="St Amount" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name= "StAmount" TabIndex="24" Text="{Binding CurrentItem.StAmount, Mode=OneWay, StringFormat=N2}" Background="White" BorderThickness="1" BorderBrush="Black" FontSize="14" FontFamily="Calibri" Height="25" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" TextChanged="txtAmount_TextChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Width="70" Margin="10,0,10,0">
+                <TextBlock Text="Amount" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtAmount" TabIndex="24" Text="{Binding CurrentItem.Amount, Mode=OneWay, StringFormat=N2}" Background="White" BorderThickness="1" BorderBrush="Black" FontSize="14" FontFamily="Calibri" Height="25" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" TextChanged="txtAmount_TextChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                <TextBlock Text="Tax Type" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <ComboBox x:Name="cmbTaxType" TabIndex="25" ItemsSource="{Binding TaxTypes}" Background="White" SelectedItem="{Binding CurrentItem.TaxType, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" BorderThickness="1" Height="25" FontSize="14" FontFamily="Calibri" Width="98" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                <TextBlock Text="Tax %" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtTaxPercentage" TabIndex="26" Text="{Binding CurrentItem.TaxRateText, UpdateSourceTrigger=PropertyChanged}" Background="White" BorderBrush="Black" BorderThickness="1" Height="25" FontSize="14" FontFamily="Calibri" Width="54" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" MaxLength="3"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Width="70">
+                <TextBlock Text="TaxAmount" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtTaxAmount" TabIndex="27" Text="{Binding CurrentItem.TaxAmount, Mode=OneWay}" Background="White" BorderThickness="1" BorderBrush="Black" FontSize="14" FontFamily="Calibri" Height="25" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="10,0,0,0" Width="70">
+                <TextBlock Text="Net Amt" FontSize="14" FontFamily="Calibri" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtNetAmount" TabIndex="28" Text="{Binding CurrentItem.NetAmount, Mode=OneWay, StringFormat=N2}" Background="White" FontSize="14" FontFamily="Calibri" BorderBrush="Black" BorderThickness="1" Height="25" materialDesign:TextFieldAssist.TextFieldCornerRadius="5" KeyDown="Input_KeyDown"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="10,10,10,13">
+                <!-- Existing form controls remain the same -->
+                <!-- ... -->
+
+                <!-- Add/Update/Clear Buttons -->
+                    <Button Content="Add" 
+            Command="{Binding AddItemCommand}" 
+            CommandParameter="{Binding CurrentItem}"
+            Margin="10,0,0,0" 
+            Height="25" 
+            Width="83" 
+            HorizontalAlignment="Center" 
+            FontWeight="DemiBold" 
+            FontFamily="Calibri" 
+            materialDesign:TextFieldAssist.TextFieldCornerRadius="8" 
+            Background="purple" 
+            Foreground="White"
+            Visibility="{Binding IsUpdateMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                    <Button Content="Update" 
+            Command="{Binding UpdateCommand}" 
+            CommandParameter="{Binding CurrentItem}"
+            Margin="10,0,0,0" 
+            Height="25" 
+            Width="83" 
+            HorizontalAlignment="Center" 
+            FontWeight="DemiBold" 
+            FontFamily="Calibri" 
+            materialDesign:TextFieldAssist.TextFieldCornerRadius="8" 
+            Background="purple" 
+            Foreground="White"
+            Visibility="{Binding IsUpdateMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                <Button Content="Cancel" 
+            Command="{Binding CancelUpdateCommand}" 
+            Margin="10,0,0,0" 
+            Height="25" 
+            Width="83" 
+            HorizontalAlignment="Center" 
+            FontWeight="DemiBold" 
+            FontFamily="Calibri" 
+            materialDesign:TextFieldAssist.TextFieldCornerRadius="8" 
+            Background="Purple" 
+            Foreground="White"
+            Visibility="{Binding IsUpdateMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                <Button Content="Clear All" 
+            Command="{Binding CancelCommand}" 
+            Margin="10,0,0,0" 
+            Height="25" 
+            Width="83" 
+            HorizontalAlignment="Center" 
+            FontWeight="DemiBold" 
+            FontFamily="Calibri" 
+            materialDesign:TextFieldAssist.TextFieldCornerRadius="8" 
+            Background="Purple" 
+            Foreground="White"/>
+            </StackPanel>
+        </StackPanel>
+        <Grid Grid.Row="4" Margin="0,0,0,190" Grid.RowSpan="2">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,10,37">
+                <DataGrid x:Name="PurchaseItemsGrid" 
+                          ItemsSource="{Binding PurchaseItems}" 
+                          SelectedItem="{Binding SelectedPurchaseItem, Mode=TwoWay}"
+                          MouseDoubleClick="DataGrid_MouseDoubleClick"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          IsReadOnly="True"
+                          Margin="10,10,10,10" 
+                          AutoGenerateColumns="False" 
+                          HeadersVisibility="Column" 
+                          CanUserAddRows="False" 
+                          CanUserDeleteRows="False" 
+                          FontSize="14" 
+                          RowHeight="35" 
+                          ColumnHeaderHeight="40" 
+                          BorderBrush="Gray" 
+                          BorderThickness="2" 
+                          MaxHeight="300" 
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          Width="Auto">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="40" Header="Select">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Metal" Binding="{Binding Metal}" Width="120"/>
+                        <DataGridTextColumn Header="HSN" Binding="{Binding HSNCode}" Width="100"/>
+                        <DataGridTextColumn Header="HUID" Binding="{Binding HuidNo}" Width="100"/>
+                        <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="120"/>
+                        <DataGridTextColumn Header="Purity" Binding="{Binding Purity}" Width="80"/>
+                        <DataGridTextColumn Header="Gross Wt" Binding="{Binding GrossWt, StringFormat=N3}" Width="90"/>
+                        <DataGridTextColumn Header="Dia Ct" Binding="{Binding DiaCtText, StringFormat=N3}" Width="80"/>
+                            <DataGridTextColumn Header="Dia rate" Binding="{Binding Drate, StringFormat=N2}" Width="90"/>
+                        <DataGridTextColumn Header="Stone Ct" Binding="{Binding StoneCt, StringFormat=N3}" Width="90"/>
+                        <DataGridTextColumn Header="Less Wt" Binding="{Binding LessWt, StringFormat=N3}" Width="80"/>
+                        <DataGridTextColumn Header="Waste" Binding="{Binding Waste, StringFormat=N3}" Width="80"/>
+                        <DataGridTextColumn Header="Net Wt" Binding="{Binding NetWt, StringFormat=N3}" Width="80"/>
+                        <DataGridTextColumn Header="Rate" Binding="{Binding Rate, StringFormat=N2}" Width="90"/>
+                        <DataGridTextColumn Header="Stone Chg" Binding="{Binding StoneCharge, StringFormat=N2}" Width="90"/>
+                            <DataGridTextColumn Header="Dia Chg" Binding="{Binding DiaAmount, StringFormat=N2}" Width="90"/>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat=N2}" Width="100"/>
+                        <DataGridTextColumn Header="Tax Type" Binding="{Binding TaxType}" Width="80"/>
+                        <DataGridTextColumn Header="Tax Amt" Binding="{Binding TaxAmount, Mode=OneWay, StringFormat=N2}" Width="90"/>
+                        <DataGridTextColumn Header="Net Price" Binding="{Binding NetPrice, StringFormat=N2}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="0,0,0,130">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Total Amount " FontSize="14" HorizontalAlignment="Center" FontWeight="DemiBold" Margin="5,15,0,0"/>
+                <TextBox x:Name="txtTotalAmount" TabIndex="29" Text="{Binding CurrentPurchase.TotalAmount, StringFormat=N2}" IsReadOnly="True" Background="White" Height="25" Width="100" Margin="5,10,10,35" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Tax Amount" FontSize="14" FontFamily="Calibri" Margin="5,15,0,0" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtTotalTaxAmount" TabIndex="30" Text="{Binding CurrentPurchase.TaxAmount, StringFormat=N2}" IsReadOnly="True" Background="White" Height="25" Width="100" Margin="5,10,10,35" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Round Off" FontSize="14" FontFamily="Calibri" Margin="5,15,0,0" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtRoundOff" TabIndex="31" Text="{Binding CurrentPurchase.Discount, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Background="White" BorderBrush="Black" Height="25" Width="100" BorderThickness="1" FontSize="14" FontFamily="Calibri" Margin="5,10,10,35" materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="TDS/TCS" FontSize="14" FontFamily="Calibri" Margin="5,15,0,0" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtTDS" TabIndex="32" Text="{Binding CurrentPurchase.TDS, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Background="White" BorderBrush="Black" Height="25" Width="100" BorderThickness="1" FontSize="14" FontFamily="Calibri" Margin="5,10,10,35" materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Net Amount" FontSize="14" FontFamily="Calibri" Margin="5,15,0,0" HorizontalAlignment="Center" FontWeight="DemiBold"/>
+                <TextBox x:Name="txtTotalNetAmount" TabIndex="33" Text="{Binding CurrentPurchase.NetAmount, StringFormat=N2}" IsReadOnly="True" Background="White" Height="25" Width="103" Margin="5,10,10,35" BorderBrush="Black" BorderThickness="1" materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,10,0">
+                <Button Content="Save" Command="{Binding SaveCommand}" Width="100" Height="35" Margin="5,0,10,35" Style="{StaticResource MaterialDesignRaisedButton}" HorizontalAlignment="Center" FontWeight="DemiBold" Background="Purple" Foreground="White"/>
+                <Button Content="Close" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Width="100" Height="35" Margin="5,0,10,35" Style="{StaticResource MaterialDesignOutlinedButton}" HorizontalAlignment="Center" FontWeight="DemiBold" Background="Purple" Foreground="White"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+    </ScrollViewer>
+</Window>
