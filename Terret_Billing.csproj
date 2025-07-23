@@ -30,7 +30,7 @@
     <Compile Include="Presentation\Views\Dashboard\ManagerSubMenu\PurchaseView.xaml.cs" />
     <Compile Include="Presentation\Views\Dashboard\ManagerSubMenu\SenderVoucherNote.xaml.cs" />
     <Compile Include="Presentation\Views\Dashboard\StockEntryPersonDashboard.xaml.cs" />
-    <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\AddItem.xaml.cs" />
+    <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\AddCategoryView.xaml.cs" />
     <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\Diamond.xaml.cs" />
     <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\GoldAndSilver.xaml.cs" />
     <Compile Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\RawPrinterHelper.cs" />
@@ -88,7 +88,7 @@
     <Page Include="Presentation\Views\Dashboard\ManagerSubMenu\PurchaseView.xaml" />
     <Page Include="Presentation\Views\Dashboard\ManagerSubMenu\SenderVoucherNote.xaml" />
     <Page Include="Presentation\Views\Dashboard\StockEntryPersonDashboard.xaml" />
-    <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\AddItem.xaml" />
+    <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\AddCategoryView.xaml" />
     <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\Diamond.xaml" />
     <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\ItemTagging\GoldAndSilver.xaml" />
     <Page Include="Presentation\Views\Dashboard\StockEntryPersonSubMenu\Tagging.xaml" />
